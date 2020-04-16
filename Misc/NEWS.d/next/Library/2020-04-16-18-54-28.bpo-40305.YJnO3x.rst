@@ -1,0 +1,5 @@
+Implement ``server_close()`` method to :class:`ThreadingHTTPServer`
+the :class:`ThreadingHTTPServer` extend two :class:`socketserver.ThreadingMixIn` and :class:`HTTPServer` which cause shadow definition of ``server_close()`` method. Propose implementation just call ``server_close()`` method of two parent class.
+
+Fix ``server_close()`` method implementation of :class:`TCPServer`.
+Now call parent method ``shutdown()`` to stop :class:`BaseServer` ``server_forever()`` infinite loop.
