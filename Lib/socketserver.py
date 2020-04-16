@@ -480,6 +480,8 @@ class TCPServer(BaseServer):
         May be overridden.
 
         """
+        # stop infinite loop BaseServer.serve_forever method
+        super().shutdown()
         self.socket.close()
 
     def fileno(self):
