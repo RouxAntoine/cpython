@@ -110,6 +110,8 @@ from http import HTTPStatus
 
 
 # Default error message template
+from socketserver import ThreadingMixIn
+
 DEFAULT_ERROR_MESSAGE = """\
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
         "http://www.w3.org/TR/html4/strict.dtd">
@@ -143,6 +145,12 @@ class HTTPServer(socketserver.TCPServer):
 
 class ThreadingHTTPServer(socketserver.ThreadingMixIn, HTTPServer):
     daemon_threads = True
+
+    def server_close(self):
+        # close TCP socket and more if override into HTTPServer class
+        HTTPServer.server_close(self)
+        # join all process request subthread
+        socketserver.ThreadingMixIn.server_close(self)
 
 
 class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
